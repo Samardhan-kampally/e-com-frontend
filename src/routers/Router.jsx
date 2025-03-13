@@ -8,6 +8,12 @@ import Admin from '../admin/Admin'
 import User from '../user/User'
 import PostCategory from '../admin/PostCategory'
 import AdminDashboard from '../admin/AdminDashboard'
+import PostProduct from '../admin/PostProduct'
+import ProductList from '../admin/ProductList'
+import UpdateProduct from '../admin/UpdateProduct'
+import Customer from '../user/Customer'
+import Cart from '../components/cart/Cart'
+import PlaceOrder from '../user/PlaceOrder'
 
 
 const Router = createBrowserRouter([
@@ -16,14 +22,22 @@ const Router = createBrowserRouter([
       element: <App/>,
       children :[
           // {path :"/",element : <Home/>},
-          // {path:"/categor",element: <PostCategory/>},
           // {path:"/search",element: <Search/>},
           // {path:"/shop", element :<ShopPage/>},
           // {path:"/shop/:id", element:<SingleProduct/>},
-          {path:"/admin/dashboard", element:<AdminDashboard/>,children:[
-            {path:"category", element:<PostCategory/>}
+          {path:"/admin", element:<Admin/>,children:[
+            {path:"dashboard", element:<AdminDashboard/>},
+            {path:"category", element:<PostCategory/>},
+            {path:"product", element:<PostProduct/>},
+            {path:"products", element:<ProductList/>},
+            {path:"product/:id", element:<UpdateProduct/>},
+            
           ]},
-          {path:"/user/dashboard", element:<User/>}
+          {path:"/user", element:<User/>,children:[
+            {path:"dashboard",element:<Customer />},
+            {path:"cart",element:<Cart/>},
+            {path:"placeOrder",element:<PlaceOrder />}
+          ]}
                     
       ]
     },

@@ -72,6 +72,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       logout()
       console.log(error)
+      if(error.request)
+        return {success:false,message:"Server Doesn't Responded"}
       if(error.response.status === 406){
         return {success:false,message: error.response.data || "User is Not Active"}
       }

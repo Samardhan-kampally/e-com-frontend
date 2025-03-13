@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../services/auth-service/AuthContext'
+import { Link, Outlet } from 'react-router-dom'
 
 const User = () => {
 
@@ -13,7 +14,12 @@ const User = () => {
     }
 
   return (
-    <div>User</div>
+    <>
+    {/* <div>User</div> */}
+    <Link to="/user/dashboard">Dashboard</Link>
+    <Link to="/user/cart">Cart</Link>
+    <Outlet />
+    </>
   )
 }
 

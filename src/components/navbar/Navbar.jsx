@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import axios from "axios";
 import { useAuth } from "../../services/auth-service/AuthContext";
+import { useSearch } from "../../services/search/SearchContext";
 
 const Navbar = () => {
     const{logout}= useAuth()
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const []
-  const [searchQuery, setSearchQuery] = useState("");
+  const {searchQuery, setSearchQuery} = useSearch();
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const navigate = useNavigate();
 
@@ -22,12 +22,8 @@ const Navbar = () => {
     setCartItemsCount(cartItems.length);
   }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-    }
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   const handleLogout = () => {
@@ -46,15 +42,13 @@ const Navbar = () => {
         </Link>
 
         <div className="navbar-search">
-          <form onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button type="submit">Search</button>
-          </form>
+          <input
+            type="text"
+            placeholder="Search products and categories..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+            {/* <button type="submit">Search</button> */}
         </div>
 
         <div className="navbar-links">
@@ -68,7 +62,7 @@ const Navbar = () => {
           </div>
 
           <div className="navbar-auth">
-            {isLoggedIn && localStorage.getItem("USERROLE") === "ADMIN" || localStorage.getItem("USERROLE") === "USER"? (
+            {(isLoggedIn) && (localStorage.getItem("USERROLE") === "ADMIN" || localStorage.getItem("USERROLE") === "USER")? (
               <div className="dropdown">
                 <button className="auth-link">
                   
@@ -77,7 +71,7 @@ const Navbar = () => {
                 <div className="dropdown-content">
                   <Link to="/profile">Profile</Link>
                   <Link to="/orders">Orders</Link>
-                  <Link to="/cart" className="navbar-cart">
+                  <Link to="/cart" className="navbar-cart">Cart
                     <span className="cart-count">{cartItemsCount}</span>
                   </Link>
                   <button onClick={handleLogout}>Logout</button>
